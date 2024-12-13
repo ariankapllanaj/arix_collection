@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -24,12 +25,33 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
-
+        $credentials = $request->only('password');
+    
+        // Determine whether the input is an email or username
+        $loginField = filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $credentials[$loginField] = $request->input('email');
+    
+        if (!Auth::attempt($credentials, $request->boolean('remember'))) {
+            throw ValidationException::withMessages([
+                'email' => __('auth.failed'),
+            ]);
+        }
+    
+        $user = Auth::user();
+    
+        // Check if the user has verified their email
+        if (!$user->hasVerifiedEmail()) {
+            Auth::logout();
+    
+            throw ValidationException::withMessages([
+                'email' => __('Your email address is not verified.'),
+            ]);
+        }
+    
         $request->session()->regenerate();
-
+    
         return redirect()->intended(route('dashboard', absolute: false));
-    }
+    }    
 
     /**
      * Destroy an authenticated session.

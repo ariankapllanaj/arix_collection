@@ -26,8 +26,19 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        // Validate the additional fields
+        $validatedData = $request->validate([
+            'surname' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $request->user()->id,
+        ]);
 
+        // Fill existing validated fields and add new ones
+        $request->user()->fill(array_merge(
+            $request->validated(), 
+            $validatedData
+        ));
+
+        // Handle email changes
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
