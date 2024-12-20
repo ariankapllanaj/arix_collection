@@ -17,8 +17,41 @@
     <!-- AOS Library-->
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-    <link href="{{ asset('css/welcome.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/ps1startup.css') }}" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        .welcome {
+            background-image: url('{{ asset('images/scroll/minecraft.jpg') }}');
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            height: calc(100vh - 30px) !important;
+            margin-top: 30px !important;
+            width: 100vw !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            box-sizing: border-box !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        #main-content {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+    </style>
 
 </head>
 
@@ -28,53 +61,50 @@
     </div>
 
     <div id="main-content" style="display: none;">
-        <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
-            @if (Route::has('login'))
-                <nav class="-mx-3 flex flex-1 justify-end">
-                    @auth
-                        <a href="{{ url('/dashboard') }}"
-                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                            Dashboard
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}"
-                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                            Log in
-                        </a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}"
-                                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                                Register
-                            </a>
-                        @endif
-                    @endauth
-                </nav>
-            @endif
-        </header>
+        @include('components.topbar')
+        <div class="welcome">
+            <h1 style="color: green">Welcome</h1>
+        </div>
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const hasSeenAnimation = localStorage.getItem('hasSeenPS1Animation');
-
-            if (hasSeenAnimation) {
-                document.getElementById('loading-screen').style.display = 'none';
-                const mainContent = document.getElementById('main-content');
-                mainContent.style.display = 'block';
-                mainContent.classList.add('show');
-            } else {
-                const loadingScreen = document.getElementById('loading-screen');
-                const mainContent = document.getElementById('main-content');
-
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                    mainContent.style.display = 'block';
-                    mainContent.classList.add('show');
-                    localStorage.setItem('hasSeenPS1Animation', 'true');
-                }, 7500); // Adjust duration based on your animation length
-            }
-        });
-    </script>
 </body>
 
 </html>
+<script>
+    // Inspired by the loader on the PS4 which randomises the symbols that appear
+    var iconList = ['triangle', 'square', 'cross', 'circle'],
+        icons = document.getElementsByClassName('icon'),
+        ready = 0,
+        i, j;
+
+    function changeIcon(icon, iconParent) {
+        var randomIcon = '#ps_' + iconList[Math.floor(Math.random() * iconList.length)],
+            iconNum = parseInt(icon.id.substr(3));
+
+        if (ready < iconNum) { // We make sure every icon is done animating in the right order
+            ready = iconNum;
+        }
+
+        iconParent.classList.remove('animate');
+        icon.setAttribute('xlink:href', randomIcon);
+
+        if (ready === 4) { // If all symbols are changed, start the animation anew
+            setTimeout(function() {
+                for (j = 0; j < icons.length; j++) {
+                    icons[j].classList.add('animate');
+                }
+                ready = 0;
+            }, 0);
+        }
+    }
+
+    for (i = 0; i < icons.length; i++) { // Loop through all the icons
+        icons[i].addEventListener('animationend', function(e) {
+            changeIcon(e.target.querySelector('.svg-icon'), e.target);
+        });
+    }
+
+    // Toggler, quick and easy
+    document.querySelector('button').addEventListener('click', function() {
+        document.querySelector('.loader').classList.toggle('oneline');
+    });
+</script>

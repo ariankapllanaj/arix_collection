@@ -228,3 +228,25 @@
 </body>
 
 </html>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const hasSeenAnimation = localStorage.getItem('hasSeenPS1Animation');
+
+        if (hasSeenAnimation) {
+            document.getElementById('loading-screen').style.display = 'none';
+            const mainContent = document.getElementById('main-content');
+            mainContent.style.display = 'block';
+            mainContent.classList.add('show');
+        } else {
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainContent = document.getElementById('main-content');
+
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                mainContent.style.display = 'block';
+                mainContent.classList.add('show');
+                localStorage.setItem('hasSeenPS1Animation', 'true');
+            }, 7500); // Adjust duration based on your animation length
+        }
+    });
+</script>
