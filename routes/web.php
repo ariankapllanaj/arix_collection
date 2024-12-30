@@ -19,5 +19,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/ps2', function () {
+    return view('pages.ps2startup'); // Matches the Blade file 'resources/views/css-demo.blade.php'
+});
+
 // Include authentication routes (e.g., login, register)
 require __DIR__.'/auth.php';
