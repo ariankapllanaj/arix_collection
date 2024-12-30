@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class ItemGeneration extends Model
 {
-    //
+    public $timestamps = false;
 }

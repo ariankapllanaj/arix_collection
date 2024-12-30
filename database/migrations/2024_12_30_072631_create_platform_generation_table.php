@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('platform_id')->constrained('platforms')->onDelete('cascade');
             $table->foreignId('generation_id')->constrained('generations')->onDelete('cascade');
-            $table->timestamps();
         });
     }    
 

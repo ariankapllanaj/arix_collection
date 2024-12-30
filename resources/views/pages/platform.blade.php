@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $platform->platform_name }}</title>
     @include('components.bootstrap')
-
     <style>
         body {
             margin-top: 56px;
@@ -17,9 +16,32 @@
 
 <body>
     @include('components.topbar')
+    <div class="container my-4">
+        <h1 class="mb-3">{{ $platform->platform_name }}</h1>
 
-    <div class="container mt-5">
-        <p>Welcome to the {{ $platform->platform_name }} page!</p>
+        <h2 class="mt-5">Generations without link</h2>
+        <ul class="list-group">
+            @forelse($platform->generations as $generation)
+                <li class="list-group-item">
+                    {{ $generation->generation_name }}
+                </li>
+            @empty
+                <li class="list-group-item text-muted">No generations available for this platform.</li>
+            @endforelse
+        </ul>
+
+        <h2 class="mt-5">Generations</h2>
+        <ul class="list-group">
+            @forelse($platform->generations as $generation)
+                <li class="list-group-item">
+                    <a href="{{ route('pages.generation', ['slug' => $generation->slug]) }}">
+                        {{ $generation->generation_name }}
+                    </a>
+                </li>
+            @empty
+                <li class="list-group-item text-muted">No generations available for this platform.</li>
+            @endforelse
+        </ul>
     </div>
 </body>
 

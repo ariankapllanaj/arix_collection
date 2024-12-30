@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,11 +57,18 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <!-- Dynamically Render Platforms -->
-                        @foreach ($platforms as $platform)
+                        @if (isset($platforms) && $platforms->isNotEmpty())
+                            @foreach ($platforms as $platform)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('pages.platform', $platform->platform_name) }}">{{ $platform->platform_name }}</a>
+                                </li>
+                            @endforeach
+                        @else
+                            <!-- Fallback content if no platforms are available -->
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('pages.platform', $platform->platform_name) }}">{{ $platform->platform_name }}</a>
+                                <a class="nav-link disabled" href="#">No Platforms Available</a>
                             </li>
-                        @endforeach
+                        @endif
 
                         @auth
                             <!-- Show this if the user is logged in -->

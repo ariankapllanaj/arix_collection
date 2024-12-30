@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('item_id')->constrained('items')->onDelete('cascade');
             $table->foreignId('platform_id')->constrained('platforms')->onDelete('cascade');
-            $table->timestamps();
         });
     }    
 

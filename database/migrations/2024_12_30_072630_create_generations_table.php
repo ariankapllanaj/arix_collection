@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('generations', function (Blueprint $table) {
             $table->id();
             $table->string('generation_name');
-            $table->timestamps();
+            $table->string('slug')->unique();
         });
     }    
 
