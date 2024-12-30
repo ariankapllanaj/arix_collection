@@ -21,7 +21,7 @@
         <h1>{{ $item->item_name }}</h1>
         <div class="row">
             <div class="col-md-6">
-                <img src="{{ $item->image }}" class="img-fluid" alt="{{ $item->item_name }}">
+                <img src="{{ asset('images/items/' . $item->image) }}" class="img-fluid" alt="{{ $item->item_name }}">
             </div>
             <div class="col-md-6">
                 <p><strong>Price:</strong> ${{ $item->price }}</p>

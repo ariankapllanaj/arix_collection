@@ -10,11 +10,21 @@
     <style>
         body {
             margin-top: 75px;
+            background-color: #f8f9fa;
         }
+
         .filter-container {
             border: 1px solid #ddd;
             padding: 15px;
             border-radius: 5px;
+        }
+
+        .card-img-top {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            margin: 10%;
+            padding: 5px;
         }
     </style>
 </head>
@@ -34,9 +44,9 @@
                         <div class="mb-3">
                             @foreach ($platforms as $platform)
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="platform_{{ $platform->id }}" 
-                                        name="platform[]" value="{{ $platform->platform_name }}" 
-                                        {{ in_array($platform->platform_name, (array) request('platform')) ? 'checked' : '' }} 
+                                    <input type="checkbox" class="form-check-input" id="platform_{{ $platform->id }}"
+                                        name="platform[]" value="{{ $platform->platform_name }}"
+                                        {{ in_array($platform->platform_name, (array) request('platform')) ? 'checked' : '' }}
                                         onchange="this.form.submit()">
                                     <label class="form-check-label" for="platform_{{ $platform->id }}">
                                         {{ $platform->platform_name }}
@@ -50,9 +60,10 @@
                         <div class="mb-3">
                             @foreach ($generations as $generation)
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="generation_{{ $generation->id }}" 
-                                        name="generation[]" value="{{ $generation->generation_name }}" 
-                                        {{ in_array($generation->generation_name, (array) request('generation')) ? 'checked' : '' }} 
+                                    <input type="checkbox" class="form-check-input"
+                                        id="generation_{{ $generation->id }}" name="generation[]"
+                                        value="{{ $generation->generation_name }}"
+                                        {{ in_array($generation->generation_name, (array) request('generation')) ? 'checked' : '' }}
                                         onchange="this.form.submit()">
                                     <label class="form-check-label" for="generation_{{ $generation->id }}">
                                         {{ $generation->generation_name }}
@@ -63,22 +74,43 @@
 
                         <!-- Manual Filter -->
                         <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" id="manual" name="manual" value="1" 
+                            <input class="form-check-input" type="checkbox" id="manual" name="manual" value="1"
                                 {{ request('manual') == '1' ? 'checked' : '' }} onchange="this.form.submit()">
                             <label class="form-check-label" for="manual">
                                 Only Items with Manual
                             </label>
                         </div>
 
+                        <!-- Category Filter -->
+                        <h6>Category</h6>
+                        <div class="mb-3">
+                            @foreach ($categories as $category)
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="category_{{ $category->id }}"
+                                        name="category[]" value="{{ $category->category_name }}"
+                                        {{ in_array($category->category_name, (array) request('category')) ? 'checked' : '' }}
+                                        onchange="this.form.submit()">
+                                    <label class="form-check-label" for="category_{{ $category->id }}">
+                                        {{ $category->category_name }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+
+
                         <!-- Sorting Options -->
                         <h5>Sorting</h5>
                         <div class="mb-3">
                             <select name="sort" class="form-select" onchange="this.form.submit()">
                                 <option value="">Sort By</option>
-                                <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
-                                <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
-                                <option value="added_desc" {{ request('sort') == 'added_desc' ? 'selected' : '' }}>Newest to Oldest</option>
-                                <option value="added_asc" {{ request('sort') == 'added_asc' ? 'selected' : '' }}>Oldest to Newest</option>
+                                <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price:
+                                    Low to High</option>
+                                <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>
+                                    Price: High to Low</option>
+                                <option value="added_desc" {{ request('sort') == 'added_desc' ? 'selected' : '' }}>
+                                    Newest to Oldest</option>
+                                <option value="added_asc" {{ request('sort') == 'added_asc' ? 'selected' : '' }}>Oldest
+                                    to Newest</option>
                             </select>
                         </div>
                     </form>
@@ -91,7 +123,8 @@
                     @forelse ($items as $item)
                         <div class="col-md-4 mb-4">
                             <div class="card h-100">
-                                <img src="{{ $item->image }}" class="card-img-top" alt="{{ $item->item_name }}">
+                                <img src="{{ asset('images/items/' . $item->image) }}" class="card-img-top"
+                                    alt="{{ $item->item_name }}">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $item->item_name }}</h5>
                                     <p class="card-text"><strong>Price:</strong> ${{ $item->price }}</p>
@@ -100,7 +133,9 @@
                                     @else
                                         <span class="badge bg-secondary">No Manual</span>
                                     @endif
-                                    <a href="{{ route('pages.item', ['id' => $item->id]) }}" class="btn btn-primary mt-2">More Information</a>
+                                    <br>
+                                    <a href="{{ route('pages.item', ['id' => $item->id]) }}"
+                                        class="btn btn-primary mt-2">More Information</a>
                                 </div>
                             </div>
                         </div>

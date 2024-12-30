@@ -18,11 +18,11 @@ class Item extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'items_categories', 'item_id', 'category_id');
+        return $this->belongsToMany(Category::class, 'items_categories', 'items_id', 'categories_id');
     }
 
     public function generations()
     {
-        return $this->belongsToMany(Generation::class, 'items_generation', 'item_id', 'generation_id');
+        return $this->belongsToMany(Generation::class, 'items_generation', 'items_id', 'generation_id');
     }
 }
