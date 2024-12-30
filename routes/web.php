@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PlatformController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,8 +21,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::get('/ps2', function () {
-    return view('pages.ps2startup'); // Matches the Blade file 'resources/views/css-demo.blade.php'
+    return view('pages.ps2startup');
 });
+
+Route::get('/platform/{platform_name}', [PlatformController::class, 'showByName'])->name('pages.platform');
 
 // Include authentication routes (e.g., login, register)
 require __DIR__.'/auth.php';

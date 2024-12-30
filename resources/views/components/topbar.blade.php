@@ -36,7 +36,6 @@
     </style>
 </head>
 
-
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
@@ -54,18 +53,12 @@
                 <!-- Collapsible Menu -->
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/playstation') }}">PlayStation</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/xbox') }}">Xbox</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/nintendo') }}">Nintendo</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/pc') }}">PC</a>
-                        </li>
+                        <!-- Dynamically Render Platforms -->
+                        @foreach ($platforms as $platform)
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('pages.platform', $platform->platform_name) }}">{{ $platform->platform_name }}</a>
+                            </li>
+                        @endforeach
 
                         @auth
                             <!-- Show this if the user is logged in -->
