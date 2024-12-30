@@ -42,6 +42,18 @@
                 <li class="list-group-item text-muted">No generations available for this platform.</li>
             @endforelse
         </ul>
+
+        <!-- Categories Section -->
+        <h2 class="mt-5">Categories</h2>
+        <ul class="list-group">
+            @forelse($platform->categories as $category)
+                <li class="list-group-item">
+                    {{ $category->category_name }}
+                </li>
+            @empty
+                <li class="list-group-item text-muted">No categories available for this platform.</li>
+            @endforelse
+        </ul>
     </div>
 </body>
 

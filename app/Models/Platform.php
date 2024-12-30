@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Platform extends Model
 {
     use HasFactory;
-    
+
     public $timestamps = false;
     protected $fillable = ['platform_name'];
 
@@ -20,5 +20,12 @@ class Platform extends Model
     public function generations()
     {
         return $this->belongsToMany(Generation::class, 'platform_generation', 'platform_id', 'generation_id');
-    }    
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'items_categories', 'items_id', 'categories_id')
+            ->join('items_platforms', 'items_platforms.item_id', '=', 'items_categories.items_id')
+            ->where('items_platforms.platform_id', $this->id);
+    }
 }
