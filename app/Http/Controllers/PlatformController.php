@@ -8,20 +8,18 @@ use Illuminate\Http\Request;
 class PlatformController extends Controller
 {
     /**
-     * Display the details of a platform along with its generations.
+     * Display the details of a platform along with its generations and categories.
      *
      * @param string $name
      * @return \Illuminate\View\View
      */
     public function showByName($name)
     {
-        // Fetch the platform and its related generations
-        $platform = Platform::with('generations')->where('platform_name', $name)->firstOrFail();
-
-        // Debugging: Uncomment this line to check generations data
-        // dd($platform->platform_name);
+        // Fetch the platform with its generations and categories
+        $platform = Platform::with(['generations', 'categories'])->where('platform_name', $name)->firstOrFail();
+        // dd($platform->categories);
 
         // Pass the platform data to the view
         return view('pages.platform', compact('platform'));
-    }
+    }       
 }

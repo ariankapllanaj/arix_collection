@@ -25,7 +25,7 @@ class Platform extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'items_categories', 'items_id', 'categories_id')
-            ->join('items_platforms', 'items_platforms.item_id', '=', 'items_categories.items_id')
+            ->join('items_platforms', 'items_categories.items_id', '=', 'items_platforms.item_id')
             ->where('items_platforms.platform_id', $this->id);
     }
 }
