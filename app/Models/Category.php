@@ -16,4 +16,9 @@ class Category extends Model
     {
         return $this->belongsToMany(Item::class, 'items_categories', 'categories_id', 'items_id');
     }
+
+    public function platformImages()
+    {
+        return $this->hasMany(PlatformCategoryImage::class);
+    }
 }

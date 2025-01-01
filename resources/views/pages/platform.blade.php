@@ -60,9 +60,10 @@
         <div class="row">
             @forelse($platform->generations as $generation)
                 <div class="col-md-4 mb-3">
-                    <a href="{{ route('pages.items', ['platform' => $platform->platform_name, 'generation' => $generation->generation_name]) }}" 
-                       style="text-decoration: none;">
-                       <div style="
+                    <a href="{{ route('pages.items', ['platform' => $platform->platform_name, 'generation' => $generation->generation_name]) }}"
+                        style="text-decoration: none;">
+                        <div
+                            style="
                        width: 300px; 
                        height: 300px; 
                        background-image: url('/images/generations/{{ $generation->background_image }}'); 
@@ -75,8 +76,8 @@
                        justify-content: center; 
                        margin: 0 auto; 
                        border: 1px solid #ddd;">
-                   </div>
-                   
+                        </div>
+
                     </a>
                 </div>
             @empty
@@ -85,19 +86,38 @@
                 </div>
             @endforelse
         </div>
-    
+
 
         <!-- Categories Section -->
         <h2 class="mt-5">Categories</h2>
-        <ul class="list-group">
-            @forelse($platform->categories as $category)
-                <li class="list-group-item">
-                    {{ $category->category_name }}
-                </li>
+        <div class="row">
+            @forelse($platform->categoryImages as $categoryImage)
+                <div class="col-md-4 mb-3">
+                    <a href="{{ route('pages.items', ['platform' => $platform->platform_name, 'category' => $categoryImage->category->category_name]) }}"
+                        style="text-decoration: none;">
+                        <div
+                            style="background-image: url('/images/categories/{{ $categoryImage->image_path }}'); 
+                                    width: 300px; 
+                                    height: 300px; 
+                                    background-size: cover; 
+                                    background-position: center; 
+                                    border-radius: 10px; 
+                                    position: relative; 
+                                    display: flex; 
+                                    align-items: flex-end; 
+                                    justify-content: center; 
+                                    margin: 0 auto; 
+                                    border: 1px solid #ddd;">
+                        </div>
+                    </a>
+                </div>
             @empty
-                <li class="list-group-item text-muted">No categories available for this platform.</li>
+                <div class="col-12">
+                    <p class="text-muted">No categories available for this platform.</p>
+                </div>
             @endforelse
-        </ul>
+        </div>
+
     </div>
 </body>
 

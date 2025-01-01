@@ -15,11 +15,14 @@ class PlatformController extends Controller
      */
     public function showByName($name)
     {
-        // Fetch the platform with its generations and categories
-        $platform = Platform::with(['generations', 'categories'])->where('platform_name', $name)->firstOrFail();
-        // dd($platform->categories);
+        // Fetch the platform with its generations, categories, and category images
+        $platform = Platform::with([
+            'generations',
+            'categories',
+            'categoryImages.category'
+        ])->where('platform_name', $name)->firstOrFail();
 
         // Pass the platform data to the view
         return view('pages.platform', compact('platform'));
-    }       
+    }
 }

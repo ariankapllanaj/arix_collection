@@ -28,4 +28,9 @@ class Platform extends Model
             ->join('items_platforms', 'items_categories.items_id', '=', 'items_platforms.item_id')
             ->where('items_platforms.platform_id', $this->id);
     }
+
+    public function categoryImages()
+    {
+        return $this->hasMany(PlatformCategoryImages::class);
+    }
 }
