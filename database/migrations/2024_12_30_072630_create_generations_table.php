@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('generation_name');
             $table->string('slug')->unique();
+            $table->string('background_image');
         });
     }    
 

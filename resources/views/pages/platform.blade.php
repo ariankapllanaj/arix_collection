@@ -56,19 +56,36 @@
     </div>
     <div class="container my-4">
 
-        <!-- Generations Section -->
         <h2 class="mt-5">Generations</h2>
-        <ul class="list-group">
+        <div class="row">
             @forelse($platform->generations as $generation)
-                <li class="list-group-item">
-                    <a href="{{ route('pages.generation', ['slug' => $generation->slug]) }}">
-                        {{ $generation->generation_name }}
+                <div class="col-md-4 mb-3">
+                    <a href="{{ route('pages.items', ['platform' => $platform->platform_name, 'generation' => $generation->generation_name]) }}" 
+                       style="text-decoration: none;">
+                       <div style="
+                       width: 300px; 
+                       height: 300px; 
+                       background-image: url('/images/generations/{{ $generation->background_image }}'); 
+                       background-size: cover; 
+                       background-position: center; 
+                       border-radius: 10px; 
+                       position: relative; 
+                       display: flex; 
+                       align-items: flex-end; 
+                       justify-content: center; 
+                       margin: 0 auto; 
+                       border: 1px solid #ddd;">
+                   </div>
+                   
                     </a>
-                </li>
+                </div>
             @empty
-                <li class="list-group-item text-muted">No generations available for this platform.</li>
+                <div class="col-12">
+                    <p class="text-muted">No generations available for this platform.</p>
+                </div>
             @endforelse
-        </ul>
+        </div>
+    
 
         <!-- Categories Section -->
         <h2 class="mt-5">Categories</h2>
