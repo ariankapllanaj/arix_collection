@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PlatformController;
+use App\Http\Controllers\GenerationController;
+use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,8 +23,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::get('/ps2', function () {
-    return view('pages.ps2startup'); // Matches the Blade file 'resources/views/css-demo.blade.php'
+    return view('pages.ps2startup');
 });
+
+Route::get('/platform/{platform_name}', [PlatformController::class, 'showByName'])->name('pages.platform');
+Route::get('/generation/{slug}', [GenerationController::class, 'show'])->name('pages.generation');
+Route::get('/items', [ItemController::class, 'index'])->name('pages.items');
+Route::get('/item/{id}', [ItemController::class, 'show'])->name('pages.item');
 
 // Include authentication routes (e.g., login, register)
 require __DIR__.'/auth.php';
