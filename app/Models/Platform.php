@@ -10,7 +10,7 @@ class Platform extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $fillable = ['platform_name'];
+    protected $fillable = ['platform_name', 'background_image'];
 
     public function items()
     {

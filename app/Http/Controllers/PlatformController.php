@@ -22,7 +22,34 @@ class PlatformController extends Controller
             'categoryImages.category'
         ])->where('platform_name', $name)->firstOrFail();
 
-        // Pass the platform data to the view
         return view('pages.platform', compact('platform'));
+    }
+
+    //Admin
+    public function create()
+    {
+        return view('pages.admin.add_platform');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'platform_name' => 'required|string|max:255',
+            'background_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Handle image upload
+        $backgroundImageName = $request->file('background_image')->getClientOriginalName();
+        $request->file('background_image')->storeAs('images/platforms', $backgroundImageName, 'public');
+
+        $request->file('background_image')->move(public_path('images/platforms'), $backgroundImageName);
+
+        // Save platform to database
+        Platform::create([
+            'platform_name' => $request->platform_name,
+            'background_image' => $backgroundImageName,
+        ]);
+
+        return redirect()->route('dashboard')->with('success', 'Platform added successfully!');
     }
 }

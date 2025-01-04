@@ -50,7 +50,7 @@
 <body>
     @include('components.topbar')
     <!-- Banner Section -->
-    <div class="background-banner" style="background-image: url('/images/platforms/{{ $platform->background_image }}');">
+    <div class="background-banner" style="background-image: url('{{ asset('images/platforms/' . $platform->background_image) }}');">
         <div class="background-overlay"></div>
         <h1 class="text-center">{{ $platform->platform_name }}</h1>
     </div>

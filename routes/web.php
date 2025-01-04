@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\GenerationController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,5 +32,15 @@ Route::get('/generation/{slug}', [GenerationController::class, 'show'])->name('p
 Route::get('/items', [ItemController::class, 'index'])->name('pages.items');
 Route::get('/item/{id}', [ItemController::class, 'show'])->name('pages.item');
 
+//Admin
+Route::middleware(['auth'])->group(function () {
+    Route::get('/create/platform', [PlatformController::class, 'create'])->name('pages.admin.add_platform');
+    Route::get('/create/generation', [GenerationController::class, 'create'])->name('pages.admin.add_generation');
+    Route::get('/create/category', [CategoryController::class, 'create'])->name('pages.admin.add_category');
+    Route::get('/create/item', [ItemController::class, 'create'])->name('pages.admin.add_item');
+});
+
+Route::post('create/platform', [PlatformController::class, 'store'])->name('platform.store');
+
 // Include authentication routes (e.g., login, register)
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
